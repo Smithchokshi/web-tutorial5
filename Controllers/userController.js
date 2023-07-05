@@ -48,18 +48,18 @@ const updateUser = async (req, res) => {
     try {
       const result = await userModel.updateOne({ _id: id }, updatedData);
 
-      if (result.nModified === 0) {
+      res.status(200).json({
+        message: 'User updated',
+        success: true,
+      });
+    } catch (e) {
+      if (e.name === 'CastError') {
         return res.status(404).json({
           message: 'No matching record found',
           success: false,
         });
       }
 
-      res.status(200).json({
-        message: 'User updated',
-        success: true,
-      });
-    } catch (error) {
       res.status(500).json({
         message: 'Internal Server Error',
         success: false,
